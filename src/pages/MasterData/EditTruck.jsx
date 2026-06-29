@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const EditTruck = () => {
   const { truckId } = useParams();
@@ -17,33 +18,46 @@ const EditTruck = () => {
     existingImage: '',
   });
 
-  useEffect(() => {
-    const fetchTruckData = async () => {
-      try {
-        const res = await fetch(`API_URL/api/trucks/${truckId}`);
-        const data = await res.json();
-        if (res.ok) {
-          setForm({
-            truckId: data.truckId,
-            truckType: data.truckType,
-            driver: data.driver,
-            plateNumber: data.plateNumber || '', // ✅ ambil plateNumber
-            status: data.status,
-            date: data.date,
-            image: null,
-            existingImage: data.image,
-          });
-        } else {
-          console.error('Data not found');
-          navigate('/master-data');
-        }
-      } catch (err) {
-        console.error('Failed to fetch truck data:', err);
-      }
-    };
+useEffect(() => {
+  const fetchTruckData = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/trucks/${truckId}`);
 
-    fetchTruckData();
-  }, [truckId, navigate]);
+      const text = await res.text();
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.error("Response bukan JSON:", text);
+        return;
+      }
+
+      if (!res.ok) {
+        alert(data.message || "Truck tidak ditemukan");
+        navigate("/master-data");
+        return;
+      }
+
+      setForm({
+        truckId: data.truckId || "",
+        truckType: data.truckType || "",
+        driver: data.driver || "",
+        plateNumber: data.plateNumber || "",
+        status: data.status || "onprogress",
+        date: data.date ? data.date.substring(0, 10) : "",
+        image: null,
+        existingImage: data.image || "",
+      });
+
+    } catch (err) {
+      console.error(err);
+      alert("Tidak dapat terhubung ke server.");
+    }
+  };
+
+  fetchTruckData();
+}, [truckId, navigate]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -55,37 +69,50 @@ const EditTruck = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const formData = new FormData();
-    formData.append('truckId', form.truckId);
-    formData.append('truckType', form.truckType);
-    formData.append('driver', form.driver);
-    formData.append('plateNumber', form.plateNumber); // ✅ sertakan plateNumber
-    formData.append('status', form.status);
-    formData.append('date', form.date);
-    if (form.image) {
-      formData.append('image', form.image);
-    }
+  const formData = new FormData();
 
+  formData.append("truckId", form.truckId);
+  formData.append("truckType", form.truckType);
+  formData.append("driver", form.driver);
+  formData.append("plateNumber", form.plateNumber);
+  formData.append("status", form.status);
+  formData.append("date", form.date);
+
+  if (form.image) {
+    formData.append("image", form.image);
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/api/trucks/${truckId}`, {
+      method: "PUT",
+      body: formData,
+    });
+
+    const text = await res.text();
+
+    let data;
     try {
-      const res = await fetch(`API_URL/api/trucks/${truckId}`, {
-        method: 'PUT',
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        alert('Truck successfully updated!');
-        navigate('/master-data');
-      } else {
-        alert(data.message || 'Failed to update truck');
-      }
-    } catch (err) {
-      alert('Failed to connect to the server');
-      console.error(err);
+      data = JSON.parse(text);
+    } catch {
+      alert(text);
+      return;
     }
-  };
+
+    if (!res.ok) {
+      alert(data.message || "Gagal mengupdate truck");
+      return;
+    }
+
+    alert("Truck berhasil diupdate.");
+    navigate("/master-data");
+
+  } catch (err) {
+    console.error(err);
+    alert("Tidak dapat terhubung ke server.");
+  }
+};
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -207,7 +234,11 @@ const EditTruck = () => {
                 className="mt-1 p-2 border border-gray-300 rounded w-full"
               />
               {form.existingImage && !form.image && (
-                <img src={`API_URL/uploads/${form.existingImage}`} alt="Truck Preview" className="mt-2 h-32 object-cover rounded" />
+                <img
+  src={`${API_URL}/uploads/${form.existingImage}`}
+  alt="Truck Preview"
+  className="mt-2 h-32 object-cover rounded"
+/>
               )}
             </div>
 
