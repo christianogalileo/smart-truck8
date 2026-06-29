@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import API_URL from "../../config/api";
 
 const InfoDriverDetail = () => {
   const { truckId } = useParams();
@@ -17,8 +18,8 @@ const InfoDriverDetail = () => {
       try {
         // ================= TRUCK DETAIL =================
         const resTruck = await fetch(
-          `API_URL/api/trucks/${encodeURIComponent(truckId)}/details`
-        );
+  `${API_URL}/api/trucks/${encodeURIComponent(truckId)}/details`
+);
 
         if (!resTruck.ok) throw new Error("Gagal mengambil data truck");
 
@@ -36,8 +37,8 @@ const InfoDriverDetail = () => {
 
         // ================= LOADINGS =================
         const resLoadings = await fetch(
-          `API_URL/api/loadings/${encodeURIComponent(truckId)}`
-        );
+  `${API_URL}/api/loadings/${encodeURIComponent(truckId)}`
+);
 
         if (!resLoadings.ok) throw new Error("Gagal mengambil data timbang muat");
 
@@ -57,10 +58,10 @@ const InfoDriverDetail = () => {
   // ================= EXPORT =================
   const handleExportExcel = () => {
     if (truck?.truckId) {
-      window.open(
-        `API_URL/api/export/truck/${encodeURIComponent(truck.truckId)}/excel`,
-        "_blank"
-      );
+     window.open(
+  `${API_URL}/api/export/truck/${encodeURIComponent(truck.truckId)}/excel`,
+  "_blank"
+);
     } else {
       alert("Data truck belum tersedia.");
     }
@@ -131,8 +132,8 @@ const InfoDriverDetail = () => {
             <div className="max-w-lg bg-white shadow-lg rounded-lg p-6 mx-auto mb-8">
               <img
                 src={
-                  truck.image_path
-                    ? `API_URL/uploads/${truck.image_path}`
+                 truck.image_path
+  ? `${API_URL}/uploads/${truck.image_path}`
                     : "https://via.placeholder.com/300"
                 }
                 alt="Truck"
