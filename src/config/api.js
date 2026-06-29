@@ -1,4 +1,6 @@
-const API_URL =
-(process.env.REACT_APP_API_URL || "http://38.147.122.240:5000").replace(/\/$/, "");
+const API_URL = (
+  process.env.REACT_APP_API_URL ||
+  "https://api.smart-card-bgr.web.id"
+).replace(/\/$/, "");
 
 export default API_URL;
