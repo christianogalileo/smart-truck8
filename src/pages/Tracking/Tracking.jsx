@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import API_URL from "../../config/api";
 
 const Tracking = () => {
   const [activeTab, setActiveTab] = useState('On Progress');
@@ -7,7 +8,7 @@ const Tracking = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = API_URL;
 
   const mapStatusToValue = (status) => {
     switch (status) {

@@ -17,7 +17,7 @@ const InfoDriverDetail = () => {
       try {
         // ================= TRUCK DETAIL =================
         const resTruck = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/trucks/${encodeURIComponent(truckId)}/details`
+          `API_URL/api/trucks/${encodeURIComponent(truckId)}/details`
         );
 
         if (!resTruck.ok) throw new Error("Gagal mengambil data truck");
@@ -36,7 +36,7 @@ const InfoDriverDetail = () => {
 
         // ================= LOADINGS =================
         const resLoadings = await fetch(
-          `${process.env.REACT_APP_API_URL}/api/loadings/${encodeURIComponent(truckId)}`
+          `API_URL/api/loadings/${encodeURIComponent(truckId)}`
         );
 
         if (!resLoadings.ok) throw new Error("Gagal mengambil data timbang muat");
@@ -58,7 +58,7 @@ const InfoDriverDetail = () => {
   const handleExportExcel = () => {
     if (truck?.truckId) {
       window.open(
-        `${process.env.REACT_APP_API_URL}/api/export/truck/${encodeURIComponent(truck.truckId)}/excel`,
+        `API_URL/api/export/truck/${encodeURIComponent(truck.truckId)}/excel`,
         "_blank"
       );
     } else {
@@ -69,7 +69,7 @@ const InfoDriverDetail = () => {
   const handleExportPDF = () => {
     if (truck?.truckId) {
       window.open(
-        `${process.env.REACT_APP_API_URL}/api/export/truck/${encodeURIComponent(truck.truckId)}/pdf`,
+        `API_URL/api/export/truck/${encodeURIComponent(truck.truckId)}/pdf`,
         "_blank"
       );
     } else {
@@ -132,7 +132,7 @@ const InfoDriverDetail = () => {
               <img
                 src={
                   truck.image_path
-                    ? `${process.env.REACT_APP_API_URL}/uploads/${truck.image_path}`
+                    ? `API_URL/uploads/${truck.image_path}`
                     : "https://via.placeholder.com/300"
                 }
                 alt="Truck"

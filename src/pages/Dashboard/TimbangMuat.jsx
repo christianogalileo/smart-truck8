@@ -23,7 +23,7 @@ const TimbangMuat = () => {
     try {
       setLoading(true);
 
-      const res = await axios.get("${process.env.REACT_APP_API_URL}/api/rfid/latest");
+      const res = await axios.get("API_URL/api/rfid/latest");
       const truckData = res.data?.truck;
 
       if (!truckData?.truckId) {
@@ -52,7 +52,7 @@ const TimbangMuat = () => {
   const syncState = async (truckId) => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/loadings/${truckId}`
+        `API_URL/api/loadings/${truckId}`
       );
 
       const data = res.data?.[0];
@@ -117,7 +117,7 @@ const TimbangMuat = () => {
         }
 
         const res = await axios.post(
-          "${process.env.REACT_APP_API_URL}/api/loadings",
+          "API_URL/api/loadings",
           {
             truckId,
             itemType: form.itemType,
@@ -141,7 +141,7 @@ const TimbangMuat = () => {
         }
 
         await axios.put(
-          `${process.env.REACT_APP_API_URL}/api/loadings/tara/${truckId}`,
+          `API_URL/api/loadings/tara/${truckId}`,
           {
             tara_belawan: Number(form.tara_belawan),
           }
@@ -171,7 +171,7 @@ const TimbangMuat = () => {
   const fetchData = async (truckId) => {
     try {
       const res = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/loadings/${truckId}`
+        `API_URL/api/loadings/${truckId}`
       );
 
       setList(res.data || []);

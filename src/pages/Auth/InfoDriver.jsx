@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import API_URL from "../../config/api";
 
 
 const InfoDriver = ({ role }) => {
 const userRole = role || "User";
 
 const apiUrl = (
-  process.env.REACT_APP_API_URL ||
+  API_URL ||
   "http://38.147.122.240:5000"
 ).replace(/\/$/, "");
 

@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../../config/api";
 
-const BASE_URL = "${process.env.REACT_APP_API_URL}";
+const BASE_URL = API_URL;
 
 const TimbangGudang = () => {
   const navigate = useNavigate();
