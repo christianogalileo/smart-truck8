@@ -1,5 +1,5 @@
 const API_URL = (
-  API_URL?.trim() ||
+  process.env.REACT_APP_API_URL ||
   "https://api.smart-card-bgr.web.id"
 ).replace(/\/+$/, "");
 
