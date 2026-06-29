@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import API_URL from "../../config/api";
 
 const Checkpoint = ({ role }) => {
   const userRole = role || "User";
-  const apiUrl = "${process.env.REACT_APP_API_URL}";
 
   const [checkpoints, setCheckpoints] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ const Checkpoint = ({ role }) => {
     try {
       setLoading(true);
 
-      const res = await fetch(`${apiUrl}/api/checkpoints`);
+      const res = await fetch(`${API_URL}/api/checkpoints`);
 
       if (!res.ok) {
         throw new Error("Failed to fetch checkpoint");
@@ -38,7 +38,7 @@ const Checkpoint = ({ role }) => {
       setCheckpoints(data);
       setError(null);
     } catch (err) {
-      console.error(err);
+      console.error("Error:", err);
       setError("Gagal mengambil data checkpoint.");
     } finally {
       setLoading(false);
@@ -61,7 +61,6 @@ const Checkpoint = ({ role }) => {
           "linear-gradient(135deg, #43bfbf 0%, #076169 60%, #033c3b 100%)",
       }}
     >
-      {/* Sidebar */}
       <aside className="bg-gray-800 text-white w-64 p-6 flex flex-col justify-between">
         <div>
           <div className="flex flex-col items-center mb-6">
@@ -124,12 +123,10 @@ const Checkpoint = ({ role }) => {
         </nav>
       </aside>
 
-      {/* Main */}
       <main className="flex-1 p-6">
         <header className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <h1 className="text-2xl font-bold">Dashboard</h1>
-
             <span className="text-lg font-medium text-gray-700">
               / Checkpoint
             </span>
@@ -150,9 +147,7 @@ const Checkpoint = ({ role }) => {
 
         <section className="bg-white rounded-lg shadow-md p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">
-              Checkpoint Logs
-            </h2>
+            <h2 className="text-xl font-semibold">Checkpoint Logs</h2>
 
             <span className="text-gray-500 text-sm">
               Auto Refresh 2 detik
@@ -163,60 +158,29 @@ const Checkpoint = ({ role }) => {
             <table className="w-full table-auto border-collapse border border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
-                  <th className="border border-gray-300 p-2">
-                    Truck ID
-                  </th>
-
-                  <th className="border border-gray-300 p-2">
-                    Plat Nomor
-                  </th>
-
-                  <th className="border border-gray-300 p-2">
-                    Truck Type
-                  </th>
-
-                  <th className="border border-gray-300 p-2">
-                    Driver
-                  </th>
-
-                  <th className="border border-gray-300 p-2">
-                    Checkpoint
-                  </th>
-
-                  <th className="border border-gray-300 p-2">
-                    Timestamp
-                  </th>
+                  <th className="border p-2">Truck ID</th>
+                  <th className="border p-2">Plat Nomor</th>
+                  <th className="border p-2">Truck Type</th>
+                  <th className="border p-2">Driver</th>
+                  <th className="border p-2">Checkpoint</th>
+                  <th className="border p-2">Timestamp</th>
                 </tr>
               </thead>
 
               <tbody>
                 {checkpoints.length > 0 ? (
                   checkpoints.map((cp) => (
-                    <tr
-                      key={cp.id}
-                      className="hover:bg-gray-100"
-                    >
-                      <td className="border border-gray-300 p-2">
-                        {cp.truckId}
-                      </td>
-
-                      <td className="border border-gray-300 p-2">
+                    <tr key={cp.id} className="hover:bg-gray-100">
+                      <td className="border p-2">{cp.truckId}</td>
+                      <td className="border p-2">
                         {cp.plateNumber || "-"}
                       </td>
-
-                      <td className="border border-gray-300 p-2">
-                        {cp.truckType}
-                      </td>
-
-                      <td className="border border-gray-300 p-2">
-                        {cp.driver}
-                      </td>
-
-                      <td className="border border-gray-300 p-2 font-semibold">
+                      <td className="border p-2">{cp.truckType}</td>
+                      <td className="border p-2">{cp.driver}</td>
+                      <td className="border p-2 font-semibold">
                         {cp.checkpoint}
                       </td>
-
-                      <td className="border border-gray-300 p-2">
+                      <td className="border p-2">
                         {new Date(cp.timestamp).toLocaleString()}
                       </td>
                     </tr>
