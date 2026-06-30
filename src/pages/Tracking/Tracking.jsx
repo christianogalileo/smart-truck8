@@ -124,7 +124,7 @@ const Tracking = () => {
                       <p className="text-sm text-gray-700">Date: {truck.date ? truck.date.split('T')[0] : ''}</p>
 
                       <div className="mt-4">
-                        <img src="https://via.placeholder.com/300x200?text=Peta+Lokasi" alt="Map" className="rounded-lg border" />
+                        <img src="/images/map-placeholder.png" alt="Map" className="rounded-lg border" />
                       </div>
                     </div>
                   </div>
