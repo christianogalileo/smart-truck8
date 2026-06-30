@@ -70,7 +70,7 @@ const InfoDriverDetail = () => {
   const handleExportPDF = () => {
     if (truck?.truckId) {
       window.open(
-        `API_URL/api/export/truck/${encodeURIComponent(truck.truckId)}/pdf`,
+        `${API_URL}/api/export/truck/${encodeURIComponent(truck.truckId)}/pdf`,
         "_blank"
       );
     } else {
