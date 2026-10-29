@@ -29,7 +29,8 @@ const MasterData = ({ role }) => { // ← sekarang menerima role langsung
       if (isEditing) return;
       try {
         const res = await fetch(`${API_URL}/api/rfid/latest`);
-        if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+        if (res.status === 404) return;
+	if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
         const data = await res.json();
 
         if (data && data.truck) {
